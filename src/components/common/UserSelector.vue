@@ -29,7 +29,7 @@ const linkDrive = ref("");
 var localStorageData = localStorage.getItem(STORAGE_KEY);
 var dataCombo = null;
 if(localStorageData){
-  dataCombo = JSON.parse(localStorage.getItem(STORAGE_KEY) || "");
+  dataCombo = JSON.parse(localStorageData || "");
 }
 const selectUserConfig = ref<DxSelectBox>({
   items: [],
@@ -37,7 +37,7 @@ const selectUserConfig = ref<DxSelectBox>({
   placeholder: "Tìm tên...",
   noDataText: "Không có dữ liệu",
   displayExpr: "UserName",
-  value: (dataCombo != "") ?  dataCombo.DocId : "",
+  value: (dataCombo != null) ?  dataCombo.DocId : "",
   valueExpr: "DocId",
   elementAttr: { class: "child-group-select-user" },
   onSelectionChanged(event) {
