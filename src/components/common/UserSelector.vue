@@ -26,14 +26,18 @@ const newUser = ref("");
 const showPopup = ref(false);
 const loading = ref(false);
 const linkDrive = ref("");
-
+var localStorageData = localStorage.getItem(STORAGE_KEY);
+var dataCombo = "";
+if(localStorageData){
+  dataCombo = JSON.parse(localStorage.getItem(STORAGE_KEY) || "");
+}
 const selectUserConfig = ref<DxSelectBox>({
   items: [],
   searchEnabled: true,
   placeholder: "Tìm tên...",
   noDataText: "Không có dữ liệu",
   displayExpr: "UserName",
-  value:  JSON.parse(localStorage.getItem(STORAGE_KEY) || "")?.DocId,
+  value:  dataCombo?.DocId,
   valueExpr: "DocId",
   elementAttr: { class: "child-group-select-user" },
   onSelectionChanged(event) {
