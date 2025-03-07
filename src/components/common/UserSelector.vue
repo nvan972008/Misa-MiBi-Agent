@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { ref, inject, onMounted, onBeforeMount, watch } from "vue";
+import { ref, inject, onMounted, onBeforeMount, watch, provide } from "vue";
+import App from './App.vue';
+import 'devextreme/dist/css/dx.light.css';
 
 import { userService, type User } from "../../services/api";
 import Draggable from "./Draggable.vue";
 import { DxSelectBox } from "devextreme-vue";
+import Toast from "./Toast.vue";
 
 const STORAGE_KEY = "selected_user";
 const USERS_STORAGE_KEY = "users_list";
@@ -33,13 +36,30 @@ const selectUserConfig = ref<DxSelectBox>({
   placeholder: "Tìm tên...",
   noDataText: "Không có dữ liệu",
   displayExpr: "UserName",
-  value:  JSON.parse(localStorage.getItem(STORAGE_KEY) || "")?.DocId,
+  value: JSON.parse(localStorage.getItem(STORAGE_KEY) || "")?.DocId,
   valueExpr: "DocId",
   elementAttr: { class: "child-group-select-user" },
-  onSelectionChanged(event) {
+  onSelectionChanged(event: any) {
     if (event && event.selectedItem) {
       updateValue(event.selectedItem.UserName, event.selectedItem.DocId);
       linkDrive.value = `https://docs.google.com/spreadsheets/d/${event.selectedItem.DocId}`;
+    }
+  },
+});
+
+const selectKeyWordConfig = ref<DxSelectBox>({
+  items: [],
+  searchEnabled: true,
+  placeholder: "",
+  noDataText: "Không có dữ liệu",
+  elementAttr: { style: "width: 100%" },
+  displayExpr: "value",
+  value: localStorage.getItem("key_word") || "",
+  valueExpr: "key",
+  onSelectionChanged(e: any) {
+    if (e && e.selectedItem) {
+      localStorage.setItem("key_word", e.selectedItem.key);
+      selectedKeyWord.value = e.selectedItem;
     }
   },
 });
@@ -114,6 +134,9 @@ onMounted(async () => {
     updateValue(savedSelection.UserName, savedSelection.DocId || "");
   }
 });
+
+const app = createApp(App);
+app.mount('#app');
 </script>
 
 <template>
