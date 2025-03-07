@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ref, provide, onMounted } from "vue";
-import { DxLoadPanel } from "devextreme-vue";
+import { ref, provide } from "vue";
 
 import ResearchTopic from "./components/page/ResearchTopic.vue";
 import BestOutline from "./components/page/BestOutline.vue";
