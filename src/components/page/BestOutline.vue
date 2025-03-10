@@ -11,7 +11,7 @@ const result = ref("");
 const selectedKeyWord = ref<KeywordResult>({});
 const showResults = ref(false);
 
-let keywordCache = localStorage.getItem("key_word");
+//let keywordCache = localStorage.getItem("key_word");
 
 const loading = inject<Ref<boolean>>("loading");
 const toast = inject<{
