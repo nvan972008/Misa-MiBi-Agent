@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { DxComboBox } from "devextreme-vue";
+
+import DxComboBox from "devextreme-vue/drop-down-box"
 
 const props = defineProps<{
   options: any[];

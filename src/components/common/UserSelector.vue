@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref, inject, onMounted, onBeforeMount, watch } from "vue";
+import { ref, inject, onMounted } from "vue";
 
 import { userService, type User } from "../../services/api";
 import Draggable from "./Draggable.vue";
 import { DxSelectBox } from "devextreme-vue";
 
 const STORAGE_KEY = "selected_user";
-const USERS_STORAGE_KEY = "users_list";
+//const USERS_STORAGE_KEY = "users_list";
 const toast = inject("toast") as {
   error: (msg: string) => void;
   success: (msg: string) => void;
@@ -26,14 +26,18 @@ const newUser = ref("");
 const showPopup = ref(false);
 const loading = ref(false);
 const linkDrive = ref("");
-
+var localStorageData = localStorage.getItem(STORAGE_KEY);
+var dataCombo = null;
+if(localStorageData){
+  dataCombo = JSON.parse(localStorageData || "");
+}
 const selectUserConfig = ref<DxSelectBox>({
   items: [],
   searchEnabled: true,
   placeholder: "Tìm tên...",
   noDataText: "Không có dữ liệu",
   displayExpr: "UserName",
-  value:  JSON.parse(localStorage.getItem(STORAGE_KEY) || "")?.DocId,
+  value: (dataCombo != null) ?  dataCombo.DocId : "",
   valueExpr: "DocId",
   elementAttr: { class: "child-group-select-user" },
   onSelectionChanged(event) {
